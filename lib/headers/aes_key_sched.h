@@ -6,10 +6,6 @@
 
 #include "aes_proc.h"
 
-#define AES128 0
-#define AES192 1
-#define AES256 2
-
 #define AES128_KEYSCHED_WORDS 44
 #define AES192_KEYSCHED_WORDS 52
 #define AES256_KEYSCHED_WORDS 60
