@@ -1,6 +1,8 @@
-#include "aes_encrypt.h"
-
 #include <stdio.h>
+#include <string.h>
+
+#include "aes.h"
+#include "internal/aes_proc.h"
 
 void aes_encrypt_block(uint32_t* input, uint32_t* key_sched, uint32_t* output, int aes_mode) {
     int rounds;

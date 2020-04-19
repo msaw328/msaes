@@ -1,17 +1,7 @@
 #ifndef _AES_PROC_H_
 #define _AES_PROC_H_
 
-#include <string.h>
 #include <stdint.h>
-
-
-// TODO:move keysize defines somewhere else
-#define AES128 0
-#define AES192 1
-#define AES256 2
-
-// TODO:split this file's functionality into two files
-// probably dont even make separate proc files, just put those as internals into key sched and encrypt respectively?
 
 // word-granularity
 // used by key sched

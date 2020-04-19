@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "aes_key_sched.h"
-#include "aes_encrypt.h"
+#include "aes.h"
 
 int main() {
     // key taken from appendix C of https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf, easy to test

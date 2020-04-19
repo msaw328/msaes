@@ -6,5 +6,12 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -pedantic -Wextra")
 
-add_subdirectory(lib)
 add_subdirectory(bin)
+
+add_library(aes SHARED
+        src/aes_proc.c
+        src/aes_key_sched.c
+        src/aes_encrypt.c
+        )
+
+target_include_directories(aes PUBLIC include)
