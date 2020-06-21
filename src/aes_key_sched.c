@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdint.h>
 
 #include "aes.h"
 #include "internal/aes_proc.h"
@@ -6,9 +7,13 @@
 // Static precomputed RCON array
 uint32_t const RCON[] = { 0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36 };
 
-void aes_key_sched_generate(uint8_t* key, uint32_t* key_sched, int aes_mode) {
+void aes_key_sched_generate(uint8_t* key, uint8_t* key_sched_bytes, int aes_mode) {
+    // work on 32 bit words internally
+    uint32_t* key_sched = (uint32_t*) key_sched_bytes;
+
     int rounds;
     int key_bytes;
+
     switch(aes_mode) {
         default:
         case AES128:
