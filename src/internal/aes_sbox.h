@@ -1,6 +1,8 @@
 #ifndef _AES_SBOX_H_
 #define _AES_SBOX_H_
 
+// SBOX and inverse SBOX
+
 #include <stdint.h>
 
 // Static precomputed array for faster lookup

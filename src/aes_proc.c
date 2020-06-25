@@ -2,7 +2,10 @@
 
 #include "internal/aes_proc.h"
 #include "internal/aes_sbox.h"
+#include "internal/aes_gf256.h"
 
+// word granularity (32 bits)
+// used by key sched
 uint32_t aes_proc_sub_word(uint32_t word) {
     uint32_t res = 0;
     uint8_t* in = (uint8_t*) &word;
@@ -20,6 +23,8 @@ uint32_t aes_proc_rot_word(uint32_t word, int bytes) {
     return (word >> bitshift) | (word << (32 - bitshift));
 }
 
+// block granularity (128 bits)
+// used by encryption
 void aes_proc_add_round_key(uint32_t* state, uint32_t* round_key) {
 	for(int i = 0; i < 4; i++) {
 		state[i] ^= round_key[i];
@@ -32,6 +37,7 @@ void aes_proc_sub_bytes(uint32_t* state) {
 	}
 }
 
+// index into a 16 byte block as a 4x4 byte matrix (for shift rows and inv shift rows)
 #define IDX(x, y) (y + x * 4)
 
 void aes_proc_shift_rows(uint32_t* state) {
@@ -64,29 +70,15 @@ void aes_proc_shift_rows(uint32_t* state) {
 	state8[IDX(0, 3)] = tmp;
 }
 
-// some implementation magic for GF(2^8) for mix columns step
-uint8_t GF_mul2(uint8_t byte) {
-	uint8_t highbit = byte & 0x80;
-	uint8_t res = byte << 1;
-
-	if(highbit) res ^= 0x1b;
-
-	return res;
-}
-
-uint8_t GF_mul3(uint8_t byte) {
-	return GF_mul2(byte) ^ byte;
-}
-
 void aes_proc_mix_columns(uint32_t* state) {
 	for(int i = 0; i < 4; i++) {
 		uint8_t* state8 = (uint8_t*) state;
 		uint8_t result[4] = { 0 };
 
-		result[0] = GF_mul2(state8[0]) ^ GF_mul3(state8[1]) ^ 	      state8[2]  ^ 		   state8[3];
-		result[1] = 		state8[0]  ^ GF_mul2(state8[1]) ^ GF_mul3(state8[2]) ^ 		   state8[3];
-		result[2] = 		state8[0]  ^ 		 state8[1]  ^ GF_mul2(state8[2]) ^ GF_mul3(state8[3]);
-		result[3] = GF_mul3(state8[0]) ^ 		 state8[1]  ^ 		  state8[2]  ^ GF_mul2(state8[3]);
+		result[0] = aes_GF256_mul(state8[0], 2) ^ aes_GF256_mul(state8[1], 3) ^               state8[2]     ^               state8[3];
+		result[1] =               state8[0]     ^ aes_GF256_mul(state8[1], 2) ^ aes_GF256_mul(state8[2], 3) ^               state8[3];
+		result[2] =               state8[0]     ^               state8[1]     ^ aes_GF256_mul(state8[2], 2) ^ aes_GF256_mul(state8[3], 3);
+		result[3] = aes_GF256_mul(state8[0], 3) ^               state8[1]     ^               state8[2]     ^ aes_GF256_mul(state8[3], 2);
 
 		memcpy(state, result, 4);
 		state++; // next column

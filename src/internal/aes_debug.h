@@ -1,6 +1,8 @@
 #ifndef _AES_DEBUG_H_
 #define _AES_DEBUG_H_
 
+// Debugging utilities
+
 #include <stdio.h>
 #include <stdint.h>
 
