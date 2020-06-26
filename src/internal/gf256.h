@@ -6,6 +6,6 @@
 
 #include <stdint.h>
 
-uint8_t aes_GF256_mul(uint8_t a, uint8_t b);
+uint8_t _aes_GF256_mul(uint8_t a, uint8_t b);
 
 #endif

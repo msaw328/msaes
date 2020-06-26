@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#include "internal/aes_gf256.h"
+#include "internal/gf256.h"
 
 // The mod polynomial in binary form
 // Whole polynomial is 0x11b but we only care about lower byte
@@ -9,7 +9,7 @@
 // Not optimized GF multiplication based mostly on these two sources:
 // https://gist.github.com/meagtan/dc1adff8d84bb895891d8fd027ec9d8c
 // http://www.cs.utsa.edu/~wagner/laws/FFM.html
-uint8_t aes_GF256_mul(uint8_t a, uint8_t b) {
+uint8_t _aes_GF256_mul(uint8_t a, uint8_t b) {
     uint8_t res = 0;
 
     while(a) {

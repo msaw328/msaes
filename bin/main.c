@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "aes.h"
+#include "aes/aes.h"
 
 int main() {
     // key taken from appendix C of https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf, easy to test

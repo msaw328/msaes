@@ -1,9 +1,9 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "aes.h"
-#include "internal/aes_proc.h"
-#include "internal/aes_debug.h"
+#include "aes/aes.h"
+#include "internal/proc.h"
+#include "internal/debug.h"
 
 void aes_decrypt_block(uint8_t* input_bytes, uint8_t* key_sched_bytes, uint8_t* output_bytes, int aes_mode) {
     // work on 32 bit words internally
@@ -41,20 +41,19 @@ void aes_decrypt_block(uint8_t* input_bytes, uint8_t* key_sched_bytes, uint8_t* 
 
     DEBUG_DUMP_BUFFER(current_key, 16, "round[%2d].ik_sch:  ", 0);
 
-    aes_proc_add_round_key(output, current_key);
+    _aes_proc_add_round_key(output, current_key);
 
-    // test vectors are in https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf
     // Round 1 to 10/12/14
     for(int i = 0; i < rounds; i++) {
         DEBUG_DUMP_BUFFER(output, 16, "round[%2d].istart:  ", i + 1);
 
         // InvShiftRows
-        aes_proc_inv_shift_rows(output);
+        _aes_proc_inv_shift_rows(output);
 
         DEBUG_DUMP_BUFFER(output, 16, "round[%2d].is_row:  ", i + 1);
 
         // InvSubBytes
-        aes_proc_inv_sub_bytes(output);
+        _aes_proc_inv_sub_bytes(output);
 
         DEBUG_DUMP_BUFFER(output, 16, "round[%2d].is_box:  ", i + 1);
 
@@ -63,13 +62,13 @@ void aes_decrypt_block(uint8_t* input_bytes, uint8_t* key_sched_bytes, uint8_t* 
         DEBUG_DUMP_BUFFER(current_key, 16, "round[%2d].ik_sch:  ", i + 1);
 
         // AddRoundKey
-        aes_proc_add_round_key(output, current_key);
+        _aes_proc_add_round_key(output, current_key);
 
         DEBUG_DUMP_BUFFER(output, 16, "round[%2d].ik_add:  ", i + 1);
 
         // InvMixColumns (not performed for last round)
         if(i < rounds - 1) {
-            aes_proc_inv_mix_columns(output);
+            _aes_proc_inv_mix_columns(output);
             
             DEBUG_DUMP_BUFFER(output, 16, "round[%2d].im_col:  ", i + 1);
         }

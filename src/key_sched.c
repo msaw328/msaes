@@ -1,8 +1,8 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "aes.h"
-#include "internal/aes_proc.h"
+#include "aes/aes.h"
+#include "internal/proc.h"
 
 // Static precomputed RCON array
 uint32_t const RCON[] = { 0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36 };
@@ -40,10 +40,10 @@ void aes_key_sched_generate(uint8_t* key, uint8_t* key_sched_bytes, int aes_mode
         uint32_t tmp = key_sched[i - 1];
 
         if(i % mod == 0) {
-            tmp = aes_proc_rot_word(tmp, 1);
-            tmp = aes_proc_sub_word(tmp) ^ RCON[i / mod];
+            tmp = _aes_proc_rot_word(tmp, 1);
+            tmp = _aes_proc_sub_word(tmp) ^ RCON[i / mod];
         } else if(aes_mode == AES256 && i % mod == 4) { // key size 256 gets special treatment - SBOX applied additional time
-            tmp = aes_proc_sub_word(tmp);
+            tmp = _aes_proc_sub_word(tmp);
         }
 
         key_sched[i] = key_sched[i - mod] ^ tmp;
