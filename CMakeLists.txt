@@ -7,8 +7,6 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -pedantic -Wextra")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DAES_DEBUG")
 
-add_subdirectory(bin)
-
 add_library(aes SHARED
         src/proc.c
         src/key_sched.c
@@ -18,3 +16,6 @@ add_library(aes SHARED
         )
 
 target_include_directories(aes PUBLIC include)
+
+enable_testing()
+add_subdirectory(tests)

@@ -12,13 +12,14 @@
 #ifdef AES_DEBUG
     #define DEBUG_DUMP_BUFFER(buffer, buffer_length, info_fmt, ...) \
         do { \
-            fprintf(stderr, "%s:%d:%s(): " info_fmt, \
-                __FILE__, __LINE__, __func__, \
-                __VA_ARGS__); \
+            fprintf(stderr, "%s(): " info_fmt, __func__, __VA_ARGS__); \
+            fflush(stdout); \
             for(int j = 0; j < buffer_length; j++) { \
                 printf("%02x", ((uint8_t*) buffer)[j]); \
             } \
+            fflush(stdout); \
             puts(""); \
+            fflush(stdout); \
         } while (0);
 #else
     #define DEBUG_DUMP_BUFFER(buffer, buffer_length, info_fmt, ...) do {} while(0);
