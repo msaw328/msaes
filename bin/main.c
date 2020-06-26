@@ -13,6 +13,10 @@ int main() {
     aes_key_sched_generate(key, key_sched, AES256);
     aes_encrypt_block(plaintext, key_sched, ciphertext, AES256);
 
+    uint8_t recovered_plaintext[16] = { 0 };
+
+    aes_decrypt_block(ciphertext, key_sched, recovered_plaintext, AES256);
+
     // there were more debug messages here than what aes_encrypt_block() does but those should be implemented as part of unit tests
     // TODO:Change this thing to be a unit test
     // use Check (the library) probably and CTest (CMake thing for defining test binaries)

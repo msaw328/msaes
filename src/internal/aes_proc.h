@@ -17,4 +17,11 @@ void aes_proc_sub_bytes(uint32_t* state);
 void aes_proc_shift_rows(uint32_t* state);
 void aes_proc_mix_columns(uint32_t* state);
 
+// block granularity (128 bits), inverse operations
+// used by decryption
+//void aes_proc_inv_add_round_key(uint32_t* state, uint32_t* round_key); //its the same as add_round_key so unimplemented
+void aes_proc_inv_sub_bytes(uint32_t* state);
+void aes_proc_inv_shift_rows(uint32_t* state);
+void aes_proc_inv_mix_columns(uint32_t* state);
+
 #endif

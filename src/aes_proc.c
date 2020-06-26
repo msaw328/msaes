@@ -32,8 +32,10 @@ void aes_proc_add_round_key(uint32_t* state, uint32_t* round_key) {
 }
 
 void aes_proc_sub_bytes(uint32_t* state) {
-	for(int i = 0; i < 4; i++) {
-		state[i] = aes_proc_sub_word(state[i]);
+	uint8_t* state_bytes = (uint8_t*) state;
+
+	for(int i = 0; i < 16; i++) {
+		state_bytes[i] = SUB_BYTE(state_bytes[i]);
 	}
 }
 
@@ -75,10 +77,69 @@ void aes_proc_mix_columns(uint32_t* state) {
 		uint8_t* state8 = (uint8_t*) state;
 		uint8_t result[4] = { 0 };
 
-		result[0] = aes_GF256_mul(state8[0], 2) ^ aes_GF256_mul(state8[1], 3) ^               state8[2]     ^               state8[3];
-		result[1] =               state8[0]     ^ aes_GF256_mul(state8[1], 2) ^ aes_GF256_mul(state8[2], 3) ^               state8[3];
-		result[2] =               state8[0]     ^               state8[1]     ^ aes_GF256_mul(state8[2], 2) ^ aes_GF256_mul(state8[3], 3);
-		result[3] = aes_GF256_mul(state8[0], 3) ^               state8[1]     ^               state8[2]     ^ aes_GF256_mul(state8[3], 2);
+		result[0] = aes_GF256_mul(state8[0], 0x2) ^ aes_GF256_mul(state8[1], 0x3) ^               state8[2]       ^               state8[3];
+		result[1] =               state8[0]       ^ aes_GF256_mul(state8[1], 0x2) ^ aes_GF256_mul(state8[2], 0x3) ^               state8[3];
+		result[2] =               state8[0]       ^               state8[1]       ^ aes_GF256_mul(state8[2], 0x2) ^ aes_GF256_mul(state8[3], 0x3);
+		result[3] = aes_GF256_mul(state8[0], 0x3) ^               state8[1]       ^               state8[2]       ^ aes_GF256_mul(state8[3], 0x2);
+
+		memcpy(state, result, 4);
+		state++; // next column
+	}
+}
+
+// block granularity (128 bits), inverse operations
+// used by decryption
+
+// because AddRoundKey uses XOR to mix key with the state, and XOR is its own inverse
+// so InvAddRoundKey and AddRoundKey are literally the same operation
+void aes_proc_inv_sub_bytes(uint32_t* state) {
+	uint8_t* state_bytes = (uint8_t*) state;
+
+	for(int i = 0; i < 16; i++) {
+		state_bytes[i] = ISUB_BYTE(state_bytes[i]);
+	}
+}
+
+// This reuses the IDX() macro defined right above shift_rows()
+void aes_proc_inv_shift_rows(uint32_t* state) {
+	uint8_t* state8 = (uint8_t*) state; // this step requires a byte level access
+	uint8_t tmp;
+
+	// 1st row - nothing
+
+	// 2nd row
+	tmp = state8[IDX(3, 1)];
+	state8[IDX(3, 1)] = state8[IDX(2, 1)];
+	state8[IDX(2, 1)] = state8[IDX(1, 1)];
+	state8[IDX(1, 1)] = state8[IDX(0, 1)];
+	state8[IDX(0, 1)] = tmp;
+
+	// 3rd row
+	tmp = state8[IDX(2, 2)];
+	state8[IDX(2, 2)] = state8[IDX(0, 2)];
+	state8[IDX(0, 2)] = tmp;
+
+	tmp = state8[IDX(3, 2)];
+	state8[IDX(3, 2)] = state8[IDX(1, 2)];
+	state8[IDX(1, 2)] = tmp;
+
+	// 4th row
+	tmp = state8[IDX(0, 3)];
+	state8[IDX(0, 3)] = state8[IDX(1, 3)];
+	state8[IDX(1, 3)] = state8[IDX(2, 3)];
+	state8[IDX(2, 3)] = state8[IDX(3, 3)];
+	state8[IDX(3, 3)] = tmp;
+}
+
+void aes_proc_inv_mix_columns(uint32_t* state) {
+	for(int i = 0; i < 4; i++) {
+		uint8_t* state8 = (uint8_t*) state;
+		uint8_t result[4] = { 0 };
+
+		result[0] = aes_GF256_mul(state8[0], 0xe) ^ aes_GF256_mul(state8[1], 0xb) ^ aes_GF256_mul(state8[2], 0xd) ^ aes_GF256_mul(state8[3], 0x9);
+		result[1] = aes_GF256_mul(state8[0], 0x9) ^ aes_GF256_mul(state8[1], 0xe) ^ aes_GF256_mul(state8[2], 0xb) ^ aes_GF256_mul(state8[3], 0xd);
+		result[2] = aes_GF256_mul(state8[0], 0xd) ^ aes_GF256_mul(state8[1], 0x9) ^ aes_GF256_mul(state8[2], 0xe) ^ aes_GF256_mul(state8[3], 0xb);
+		result[3] = aes_GF256_mul(state8[0], 0xb) ^ aes_GF256_mul(state8[1], 0xd) ^ aes_GF256_mul(state8[2], 0x9) ^ aes_GF256_mul(state8[3], 0xe);
 
 		memcpy(state, result, 4);
 		state++; // next column

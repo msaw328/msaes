@@ -4,7 +4,8 @@
 #include <stdint.h>
 
 // Library API
-void aes_encrypt_block(uint8_t* input, uint8_t* key_sched, uint8_t* output, int aes_mode);
+void aes_encrypt_block(uint8_t* plaintext, uint8_t* key_sched, uint8_t* ciphertext, int aes_mode);
+void aes_decrypt_block(uint8_t* ciphertext, uint8_t* key_sched, uint8_t* plaintext, int aes_mode);
 void aes_key_sched_generate(uint8_t* key, uint8_t* key_sched_buffer, int aes_mode);
 
 // Key size constants

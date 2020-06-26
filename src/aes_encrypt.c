@@ -43,7 +43,7 @@ void aes_encrypt_block(uint8_t* input_bytes, uint8_t* key_sched_bytes, uint8_t* 
     aes_proc_add_round_key(output, current_key);
 
     // test vectors are in https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf
-    // Round 1 to 9/11/13
+    // Round 1 to 10/12/14
     for(int i = 0; i < rounds; i++) {
         DEBUG_DUMP_BUFFER(output, 16, "round[%2d].start:  ", i + 1);
 
