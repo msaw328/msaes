@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "aes/aes.h"
+#include "msaes/aes.h"
 #include "internal/proc.h"
 
 // Static precomputed RCON array

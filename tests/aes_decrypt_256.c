@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "aes/aes.h"
+#include "msaes/aes.h"
 
 int main() {
     // Test data taken from FIPS 197 Appendix C

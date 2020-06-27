@@ -12,9 +12,9 @@ add_executable(aes_decrypt_128_test
         aes_decrypt_128.c
         )
 
-target_link_libraries(aes_key_sched_128_test PUBLIC aes)
-target_link_libraries(aes_encrypt_128_test PUBLIC aes)
-target_link_libraries(aes_decrypt_128_test PUBLIC aes)
+target_link_libraries(aes_key_sched_128_test PUBLIC msaes)
+target_link_libraries(aes_encrypt_128_test PUBLIC msaes)
+target_link_libraries(aes_decrypt_128_test PUBLIC msaes)
 
 add_test(NAME aes_key_sched_128 COMMAND aes_key_sched_128_test)
 add_test(NAME aes_encrypt_128 COMMAND aes_encrypt_128_test)
@@ -34,9 +34,9 @@ add_executable(aes_decrypt_192_test
         aes_decrypt_192.c
         )
 
-target_link_libraries(aes_key_sched_192_test PUBLIC aes)
-target_link_libraries(aes_encrypt_192_test PUBLIC aes)
-target_link_libraries(aes_decrypt_192_test PUBLIC aes)
+target_link_libraries(aes_key_sched_192_test PUBLIC msaes)
+target_link_libraries(aes_encrypt_192_test PUBLIC msaes)
+target_link_libraries(aes_decrypt_192_test PUBLIC msaes)
 
 add_test(NAME aes_key_sched_192 COMMAND aes_key_sched_192_test)
 add_test(NAME aes_encrypt_192 COMMAND aes_encrypt_192_test)
@@ -56,9 +56,9 @@ add_executable(aes_decrypt_256_test
         aes_decrypt_256.c
         )
 
-target_link_libraries(aes_key_sched_256_test PUBLIC aes)
-target_link_libraries(aes_encrypt_256_test PUBLIC aes)
-target_link_libraries(aes_decrypt_256_test PUBLIC aes)
+target_link_libraries(aes_key_sched_256_test PUBLIC msaes)
+target_link_libraries(aes_encrypt_256_test PUBLIC msaes)
+target_link_libraries(aes_decrypt_256_test PUBLIC msaes)
 
 add_test(NAME aes_key_sched_256 COMMAND aes_key_sched_256_test)
 add_test(NAME aes_encrypt_256 COMMAND aes_encrypt_256_test)
