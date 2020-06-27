@@ -63,5 +63,5 @@ int main() {
     uint8_t ciphertext[16] = { 0 };
     aes_encrypt_block(plaintext, key_sched, ciphertext, AES192);
 
-    return (memcpy(ciphertext, expected_ciphertext, 16) == 0) ? 1 : 0;
+    return (memcmp(ciphertext, expected_ciphertext, 16) == 0) ? 0 : 1;
 }

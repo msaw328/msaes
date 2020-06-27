@@ -52,5 +52,5 @@ int main() {
     uint8_t key_sched[AES128_KEYSCHED_SIZE] = { 0 };
     aes_key_sched_generate(key, key_sched, AES128);
 
-    return (memcpy(key_sched, expected_key_sched, AES128_KEYSCHED_SIZE) == 0) ? 1 : 0;
+    return (memcmp(key_sched, expected_key_sched, AES128_KEYSCHED_SIZE) == 0) ? 0 : 1;
 }
