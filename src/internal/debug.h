@@ -14,7 +14,7 @@
         do { \
             fprintf(stderr, "%s(): " info_fmt, __func__, __VA_ARGS__); \
             fflush(stdout); \
-            for(int j = 0; j < buffer_length; j++) { \
+            for(unsigned int j = 0; j < buffer_length; j++) { \
                 printf("%02x", ((uint8_t*) buffer)[j]); \
             } \
             fflush(stdout); \

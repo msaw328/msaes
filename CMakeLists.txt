@@ -13,6 +13,7 @@ add_library(msaes SHARED
         src/gf256.c
         src/encrypt.c
         src/decrypt.c
+        src/padding.c
         )
 
 target_include_directories(msaes PUBLIC include)

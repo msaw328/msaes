@@ -63,3 +63,31 @@ target_link_libraries(aes_decrypt_256_test PUBLIC msaes)
 add_test(NAME aes_key_sched_256 COMMAND aes_key_sched_256_test)
 add_test(NAME aes_encrypt_256 COMMAND aes_encrypt_256_test)
 add_test(NAME aes_decrypt_256 COMMAND aes_decrypt_256_test)
+
+### Padding ###
+
+add_executable(aes_pad_buf_len_test
+        aes_pad_buf_len.c
+        )
+
+add_executable(aes_pad_buffer_test
+        aes_pad_buffer.c
+        )
+
+add_executable(aes_unpad_buf_len_test
+        aes_unpad_buf_len.c
+        )
+
+add_executable(aes_unpad_buffer_test
+        aes_unpad_buffer.c
+        )
+
+target_link_libraries(aes_pad_buf_len_test PUBLIC msaes)
+target_link_libraries(aes_pad_buffer_test PUBLIC msaes)
+target_link_libraries(aes_unpad_buf_len_test PUBLIC msaes)
+target_link_libraries(aes_unpad_buffer_test PUBLIC msaes)
+
+add_test(NAME aes_pad_buf_len COMMAND aes_pad_buf_len_test)
+add_test(NAME aes_pad_buffer COMMAND aes_pad_buffer_test)
+add_test(NAME aes_unpad_buf_len COMMAND aes_unpad_buf_len_test)
+add_test(NAME aes_unpad_buffer COMMAND aes_unpad_buffer_test)
