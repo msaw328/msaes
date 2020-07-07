@@ -20,3 +20,5 @@ target_include_directories(msaes PUBLIC include)
 
 enable_testing()
 add_subdirectory(tests)
+
+add_subdirectory(examples EXCLUDE_FROM_ALL)

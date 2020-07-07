@@ -17,7 +17,7 @@ It is also possible to specify build type (Debug/Release) explicitly:
 $ cmake .. -DCMAKE_BUILD_TYPE=DEBUG
 $ cmake .. -DCMAKE_BUILD_TYPE=RELEASE
 ```
-Debug build displays information about state between steps specified in the standard (ShiftRows, MixColumns etc.).
+Debug build displays information on stderr about state between steps specified in the standard (ShiftRows, MixColumns etc.). If you do not want this output, build RELEASE or redirect stderr somewhere else.
 
 Running `make` produces a library `libmsaes.so` in the `build` directory as well as a few executables in `build/tests`. These executables are unit tests which can be ran using `ctest` or `make test` (CTest is a part of CMake).
 
@@ -26,6 +26,10 @@ If building DEBUG, one can also view raw test output (it is not displayed by def
 $ cd build
 $ ctest --verbose > ../test_output.txt
 ```
+# Library API
+TODO:Describe API
 
-# Using library
-Link against `libmsaes.so` and include `msaes/aes.h` in your code to use the library.
+Before i do that you may look into header files in `include` and read comments.
+
+# Examples
+Go to [examples README file](examples/README.md).

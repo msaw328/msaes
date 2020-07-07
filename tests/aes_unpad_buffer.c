@@ -19,7 +19,7 @@ int main() {
 
     aes_unpad_buffer(padded_data1, data1, 15);
 
-    if(memcmp(data1, expected_data1, 16) != 0) return 1;
+    if(memcmp(data1, expected_data1, 15) != 0) return 1;
 
     // Buffer on block boundary
     uint8_t padded_data2[32] = {
@@ -55,7 +55,7 @@ int main() {
 
     aes_unpad_buffer(padded_data3, data3, 13);
 
-    if(memcmp(data3, expected_data3, 16) != 0) return 3;
+    if(memcmp(data3, expected_data3, 13) != 0) return 3;
 
     return 0;
 }

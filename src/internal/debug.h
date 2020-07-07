@@ -13,13 +13,13 @@
     #define DEBUG_DUMP_BUFFER(buffer, buffer_length, info_fmt, ...) \
         do { \
             fprintf(stderr, "%s(): " info_fmt, __func__, __VA_ARGS__); \
-            fflush(stdout); \
+            fflush(stderr); \
             for(unsigned int j = 0; j < buffer_length; j++) { \
-                printf("%02x", ((uint8_t*) buffer)[j]); \
+                fprintf(stderr, "%02x", ((uint8_t*) buffer)[j]); \
             } \
-            fflush(stdout); \
-            puts(""); \
-            fflush(stdout); \
+            fflush(stderr); \
+            fprintf(stderr, "%s\n", ""); \
+            fflush(stderr); \
         } while (0);
 #else
     #define DEBUG_DUMP_BUFFER(buffer, buffer_length, info_fmt, ...) do {} while(0);
