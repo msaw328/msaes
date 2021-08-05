@@ -25,16 +25,17 @@ keyfile.secret contains the key):
 To decrypt data swap infile and outfile around and add -d as the third
 argument.
 
-Input and output might also be network sockets when piped from/to netcat
+Input and output could also be network sockets when piped from/to netcat
 or other similar commands. Example commands used to send input from one
 terminal to the output of another terminal, potentially on another
-machine, through an encrypted TCP tunnel (both parties must obviously
-use the same preshared keyfile.secret):
+machine, through an encrypted TCP tunnel could look like this:
 
     # receiving (listening)
     $ nc -l [address] -p [port] | ./ofb_pipe keyfile.secret -d | cat
     # sending (connecting)
     $ cat | ./ofb_pipe keyfile.secret | nc [address] [port]
+
+Both parties must obviously use the same preshared keyfile.secret.
 
 It's important to note that, while the program works on a stream of
 bytes instead of blocks and may be used to encrypt streams such as
